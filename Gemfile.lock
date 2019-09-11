@@ -27,8 +27,8 @@ PLATFORMS
 
 DEPENDENCIES
   erubis
-  sinatra (~> 1.4.7)
+  sinatra
   sinatra-contrib
 
 BUNDLED WITH
-   1.15.1
+   1.16.5
