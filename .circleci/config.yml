@@ -20,9 +20,9 @@ references:
         docker-build -f deploy/build_and_deploy.config
         docker-push -f deploy/build_and_deploy.config
 
-  deploy: &deploy
+  deploy_to_kube: &deploy_to_kube
       run:
-        name: Deploy
+        name: Deploy to Kube
         command: |
           prepare-kubectl
           helm-deploy -f deploy/build_and_deploy.config
@@ -38,12 +38,12 @@ jobs:
       - *build_image
   deploy:
     docker:
-      - image: uay.io/reactiveops/ci-images:v9.3-stretch
+      - image: quay.io/reactiveops/ci-images:v9.3-stretch
     steps:
       - checkout
       - setup_remote_docker
       - *set_environment_variables
-      - *deploy
+      - *deploy_to_kube
 
 
 workflows:
