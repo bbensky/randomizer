@@ -1,5 +1,5 @@
 {{- if .Values.pdb.enabled }}
-{{- $fullName := include "df-chart.fullname" . -}}
+{{- $fullName := include "nr-chart.fullname" . -}}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
@@ -8,6 +8,6 @@ spec:
   maxUnavailable: {{ .Values.pdb.maxUnavailable }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "df-chart.name" . }}
+      app.kubernetes.io/name: {{ include "nr-chart.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end}}}
