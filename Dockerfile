@@ -7,4 +7,4 @@ RUN bundle install
 
 COPY . .
 
-CMD ["ruby", "./randomizer.rb"]
+CMD ["ruby", "./name_randomizer.rb"]
