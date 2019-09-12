@@ -20,6 +20,13 @@ references:
         docker-build -f deploy/build_and_deploy.config
         docker-push -f deploy/build_and_deploy.config
 
+  deploy: &deploy
+      run:
+        name: Deploy
+        command: |
+          prepare-kubectl
+          helm-deploy -f deploy/build_and_deploy.config
+
 jobs:
   build_and_push_image:
     docker:
@@ -29,9 +36,25 @@ jobs:
       - setup_remote_docker
       - *set_environment_variables
       - *build_image
+  deploy:
+    docker:
+      - image: uay.io/reactiveops/ci-images:v9.3-stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - *set_environment_variables
+      - *deploy
+
 
 workflows:
   version: 2
   build:
     jobs:
       - build_and_push_image
+      - deploy:
+          requires:
+            - build_and_push_image
+          filters:
+            branches:
+              only:
+                - master
